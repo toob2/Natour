@@ -1,0 +1,17 @@
+// what the clearfix does is that it appends a pseudo element after the element which will then clear these floats
+
+// so wen you include it it will then translate to ie:
+// .row::after{} - thats why we are using the ampersand
+/*
+first of all we need to specify the content property, otherwise the pseudo element wont simply appear on the page - and we want it empty because we dont want to see this element
+then we also need to display it, the standard version to do the clearfix is to use display: table; and then finally the property that performs the clearfix is the clear property clear: both, so it will clear no matter if it was floated on the right or left
+*/
+
+@mixin clearfix {
+  &::after {
+    content: "";
+    display: table;
+    clear: both;
+  }
+}
+

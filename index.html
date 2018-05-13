@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900" rel="stylesheet">
+
+        <link rel="stylesheet" href="css/icon-font.css">
+        <link rel="stylesheet" href="css/style.css" type="text/css">
+        <link rel="shortcut icon" type="image/png" href="img/favicon.png">
+        
+        <title>Natours | Exciting tours for adventurous people</title>
+    </head>
+    <body>
+<!--our first BEM block is the HEADER - COZ ITS A STANDALONE COMPONENT AND ALL OF THE ELEMENTS INSIDE OF IT SHOULD ALSO HAVE 'HEADER ATTACHED TO IT  - ie the log-box can only exist inside of the header, and we use a double underscore __ to separate the block from the element-->
+        <header class="header">
+            <!--for the logo its a better practice to have it in a small container as a div is a block element and its gonna be easier to position it. the alt is to describe the image for the SEO as well as if it fails to load-->
+            <div class="header__logo-box">
+                <img src="img/logo-white.png" alt="Logo" class="header__logo">
+            </div>
+<!-- remember the h1 is the most important heading on the website which is important for SEO to figure out what our webpage is all about, so its important that we put the title of our webpage in there. we could do the OUTDOORS in H1 and the IS WHERE LIFE HAPPENS INTO H2, but thats not what we want, because we dont want our primary text or the title of our website to say just OUTDOORS, SO WE MUST SOMEHOW DIVIDE THIS TEXT. SO WE ARE GONNA USE THE SPAN ELEMENT WHICH IS PERFECT FOR THIS, COZ SPAN IS TO JUST STYLE SOME TEXT DIFFERENTLY. SO WE CAN PUT  2 SPAN ELEMENTS THERE, ONE FOR THE TOP AND ANOTHER ONE FOR THE BOTTOM-->
+            <div class="header__text-box">
+            <h1 class="heading-primary"><!--is a standalone block-->
+                <!-- heading-primary-main and sub are actually modifiers of heading-primary so we put two dashes there -->
+                <span class="heading-primary--main">Outdoors</span>
+                <span class="heading-primary--sub">Is where life happens</span>
+            </h1>
+            <a href="#" class="btn btn--animated btn--white ">Discover our tours</a>
+<!-- we are gonnna add 2 classes to the button coz we are gonna have different colors of buttons on the page but the functionality will remain the same - its a good practice-->
+            </div>
+        </header>
+
+       
+        <section class="grid-test">
+
+            <div class="row">
+                <div class="col-1-of-2">
+                    Col 1 of 2
+                </div>
+                <div class="col-1-of-2">
+                    Col 1 of 2
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-1-of-3">
+                    Col 1 of 3
+                </div>
+                <div class="col-1-of-3">
+                    Col 1 of 3
+                </div>
+                <div class="col-1-of-3">
+                    Col 1 of 3
+                </div>  
+            </div>
+
+            <div class="row">
+                <div class="col-1-of-3">
+                    Col 1 of 3
+                </div>
+                <div class="col-2-of-3">
+                    Col 2 of 3
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-1-of-4">
+                    Col 1 of 4
+                </div>
+                <div class="col-1-of-4">
+                    Col 1 of 4
+                </div>
+                <div class="col-1-of-4">
+                    Col 1 of 4
+                </div>  
+                <div class="col-1-of-4">
+                    Col 1 of 4
+                </div>  
+            </div>
+
+            <div class="row">
+                <div class="col-1-of-4">
+                    Col 1 of 4
+                </div>
+                <div class="col-1-of-4">
+                    Col 1 of 4
+                </div>
+                <div class="col-2-of-4">
+                    Col 2 of 4
+                </div>  
+            </div>
+
+            <div class="row">
+                <div class="col-1-of-4">
+                    Col 1 of 4
+                </div>
+                <div class="col-3-of-4">
+                    Col 3 of 4
+                </div>
+            </div>
+
+        </section>
+    
+        
+        
+    </body>
+</html>

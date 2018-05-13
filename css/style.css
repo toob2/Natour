@@ -1,0 +1,246 @@
+/*
+importing the _base.scss file acc to the 7-1 architecture, we dont have to use the _ or .scss, just the path in the fold base/base - its enough for the sass to understand what do we wanna import
+
+this architecture might be a bit of an overkill for a small project, but once you start working on a huge project, you are gonna appreciate how helpful it is
+
+imagine having 10k lines of code
+*/
+/*
+first of all we need to specify the content property, otherwise the pseudo element wont simply appear on the page - and we want it empty because we dont want to see this element
+then we also need to display it, the standard version to do the clearfix is to use display: table; and then finally the property that performs the clearfix is the clear property clear: both, so it will clear no matter if it was floated on the right or left
+*/
+/*
+this is a partial sass file, it will be used for basic stuff like resets, body definitions etc, and it will be imported into our main file at the top
+*/
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit; }
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box; }
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem); }
+  80% {
+    transform: translateX(1rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); } }
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem); }
+  80% {
+    transform: translateX(-1rem); }
+  100% {
+    opacity: 1;
+    transform: translate(0); } }
+
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(10rem); }
+  100% {
+    opacity: 1;
+    transform: translateY(0); } }
+
+/*
+again you could argue this the heading is a component, its up to you
+*/
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase; }
+  .heading-primary--main {
+    display: block;
+    font-size: 6rem;
+    font-weight: 600;
+    letter-spacing: 3.5rem;
+    animation: moveInLeft;
+    animation-duration: 3s;
+    animation-timing-function: ease-out;
+    backface-visibility: hidden; }
+  .heading-primary--sub {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1.75rem;
+    animation: moveInRight 3s ease-out;
+    margin-bottom: 2rem; }
+
+body {
+  font-family: "lato", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: #777;
+  padding: 3rem; }
+
+/*
+we can treat the button as a component, coz its independent and reusable accross the whole page
+*/
+/* 
+ nesting - remember what '&' does? when its nested, you can use it instead of writing header__logo-box each time, you use &__logo-box
+ SO THIS IS A RLY GOOD APPROACH WITH THE NESTING, COZ EVERYTHING IS ENCAPSULATED IN ONE BIG HEADER BLOCK
+ */
+.btn {
+  /*cant get this nested, it always breaks dunno why? */ }
+  .btn:link, .btn:visited {
+    display: inline-block;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 1.5rem 4rem;
+    border-radius: 10rem;
+    transition: all .2s ease-out;
+    position: relative;
+    font-size: 1.6rem; }
+  .btn:hover {
+    transform: translateY(-0.3rem);
+    box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2); }
+  .btn:hover::after {
+    transform: scaleX(1.5) scaleY(2);
+    opacity: 0; }
+  .btn:active {
+    transform: translateY(-0.1rem);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2); }
+  .btn--white {
+    background-color: #fff;
+    color: #777; }
+  .btn--white::after {
+    background-color: #fff;
+    color: #777; }
+  .btn::after {
+    content: '';
+    display: inline-block;
+    height: 100%;
+    width: 100%;
+    border-radius: 10rem;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    z-index: -1;
+    transition: all .4s ease-out; }
+  .btn--animated {
+    animation: moveInBottom 0.5s ease-out .75s;
+    animation-fill-mode: backwards; }
+
+/*
+the header we arent gonna treat as a component but as a layout - imagine that on each page as the website grows, the header is gonna be there so its a part of the layout
+
+but there is no right and wrong, if you say its a component, maybe ur not wrong
+*/
+.header {
+  height: 95vh;
+  background-image: linear-gradient(to right bottom, rgba(126, 213, 111, 0.5), rgba(85, 197, 122, 0.5), rgba(40, 180, 133, 0.5)), url(../img/hero.jpg);
+  background-size: cover;
+  background-position: top;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 85vh);
+  position: relative; }
+  .header__logo-box {
+    position: absolute;
+    top: 4rem;
+    left: 4rem; }
+  .header__text-box {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center; }
+  .header__logo {
+    height: 3.5rem; }
+
+/*
+first we need to define the width of the row - and one of the standards that  is used today is 1140px. but we wanna use rems and not pixels. so its gonna be 114rem, coz 1140/10 which is our base size
+but its still not perfect coz what we want is actually the max-width
+  * and what is the difference between width and max-width?
+  * if we start decreasing the size of the viewport horizontally, everything will start to adapt and what the max-width means is if we have enough of space it will never get wider than the 1140px
+  * but if the viewport width is smaller than 1140px; then it will simple fill 100% of the available width
+  * you can try giving it some bg color to see whats going on
+
+  * and the last thing we wanna do is always centre this row in a viewport
+          * the trick is using: margin: 0 auto;
+          * thats the trick everybody uses to centre a block element inside of another block element - top and bottom is 0, left and right is auto
+          auto means that left and right will be the same margin automatically rendered by the browser
+
+  * another thing we should do about the rows, is that we should have some space between them = a gutter
+  * these values are great to specify in a variable, so that we have one place where we can change them in the file
+
+  and btw we dont want the last row to have margin at the bottom - we could use the last-child pseudo class
+
+  but we CAN DO even better and use the NOT pseudo selector and in there we specify another pseudo class
+
+  .row:last-child {} would be selecting simply the last child
+
+  what the :not(:last-child) {} does is exactly the opposite, so we select everything but not the last child
+
+  so we put the gutter on all the rows except the last child
+
+  * since the columns are always inside of rows, we can nest them inside of the .row selector
+
+  1st .col-1-of-2 - how do we define the width of the column? its the entire width of the row minus the gutter divided by 2
+
+  how do we actually do these calculations? in SCSS there is an extremely powerful function which is called CALC - in there you can do math operations and you can actually mix units in there which is a huge advantage (we cant do this in SASS)
+        * but dont forget to use 6rem if u use a sass variable in the calc function  - so we have to use a hash + wrap it in the curly braces
+
+  now we wanna be able to see the gutter, and as you can see from the diagram, the horizontal gutter is always the right margin of the col. so if there are 2 , then there is one horizontal gutter which is the right margin of the first col
+  so again we are gonna use the :not pseudo class
+
+  one more thing, since we are using float layout, we need to use float:left, coz we always need to float these columns to the left
+
+  NOTICE
+    * the row has height of 0px - and that is because all of the child elements are floated - SO THE HEIGHT COLLAPSES AND BECOMES ZERO
+        * WE NEED TO USE THE CLEARFIX HACK
+        * WE ARE GONNA USE A SASS MIXIN - A REUSABLE PIECE OF CODE - WE ARE GONNA PUT IT INTO MIXINS
+
+
+    * ALSO WITH ANOTHER ROWS - THE CODE AFTER THE CALC FUNCTION - we cant repeat ourselves, that would be against the DRY dont repeat yourself practice - instead what we wanna do is to take all these columns and apply the styles all at once
+        and for that we are gonna use the ATTRIBUTE SELECTOR
+            [src] for example - we could select all of the elements that have this exact source for example . or we could select by [alt] ie
+            [alt = "logo]
+
+  but what  we wanna do in this case is to select by the class - but why not select using the dot? coz we can select by not just using = equal but also ^= meaning we want the beggining to be ie col- and thats it  - IT WILL SELECT ALL OF THE ELEMENTS IN WHICH THE CLASS ATTRIBUTE STARTS WITH COL-
+
+  WE COULD ALSO USE OTHER SYMBOLS LIKE *= WHICH WOULD MEAN SELECT EVERY CLASS THAT CONTAINS THE COL-
+
+              $= "col-" would select all the elements with class that ends with col-
+
+              ie we could select all links with certain href, or all anchor elements with target blank etc, there are a lot of applications for this
+*/
+[class^="col-"] {
+  background-color: orangered;
+  float: left; }
+  [class^="col-"]:not(:last-child) {
+    margin-right: 6rem; }
+
+.row {
+  max-width: 114rem;
+  background-color: #eee;
+  margin: 0 auto; }
+  .row:not(:last-child) {
+    margin-bottom: 5rem; }
+  .row::after {
+    content: "";
+    display: table;
+    clear: both; }
+  .row .col-1-of-2 {
+    width: calc((100% - 6rem) / 2); }
+  .row .col-1-of-3 {
+    width: calc((100% - 2 * 6rem) / 3); }
+  .row .col-2-of-3 {
+    width: calc(2 * ((100% - 2 * 6rem) / 3) + 6rem); }
+  .row .col-1-of-4 {
+    width: calc((100% - 3 * 6rem) / 4); }
+  .row .col-2-of-4 {
+    width: calc(2 * ((100% - 3 * 6rem) / 4) + 6rem); }
+  .row .col-3-of-4 {
+    width: calc(3 * ((100% - 3 * 6rem) / 4) + 2 * 6rem); }
+
+/*
+so what we do now is we sort all of this code bellow into the other files. so the goal is that this main file will have nothing but the import
+
+*/

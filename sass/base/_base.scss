@@ -1,0 +1,18 @@
+/*
+this is a partial sass file, it will be used for basic stuff like resets, body definitions etc, and it will be imported into our main file at the top
+*/
+
+*,
+ *::before,
+ *::after {
+   margin: 0;
+   padding: 0;
+   box-sizing: inherit;
+}
+ 
+ html {
+   font-size: 62.5%;   // this defines what 1 rem is, so thats why we arent moving it typography
+   box-sizing: border-box;
+ }
+ 
+ 

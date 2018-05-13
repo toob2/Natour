@@ -1,0 +1,106 @@
+/*
+first we need to define the width of the row - and one of the standards that  is used today is 1140px. but we wanna use rems and not pixels. so its gonna be 114rem, coz 1140/10 which is our base size
+but its still not perfect coz what we want is actually the max-width
+  * and what is the difference between width and max-width?
+  * if we start decreasing the size of the viewport horizontally, everything will start to adapt and what the max-width means is if we have enough of space it will never get wider than the 1140px
+  * but if the viewport width is smaller than 1140px; then it will simple fill 100% of the available width
+  * you can try giving it some bg color to see whats going on
+
+  * and the last thing we wanna do is always centre this row in a viewport
+          * the trick is using: margin: 0 auto;
+          * thats the trick everybody uses to centre a block element inside of another block element - top and bottom is 0, left and right is auto
+          auto means that left and right will be the same margin automatically rendered by the browser
+
+  * another thing we should do about the rows, is that we should have some space between them = a gutter
+  * these values are great to specify in a variable, so that we have one place where we can change them in the file
+
+  and btw we dont want the last row to have margin at the bottom - we could use the last-child pseudo class
+
+  but we CAN DO even better and use the NOT pseudo selector and in there we specify another pseudo class
+
+  .row:last-child {} would be selecting simply the last child
+
+  what the :not(:last-child) {} does is exactly the opposite, so we select everything but not the last child
+
+  so we put the gutter on all the rows except the last child
+
+  * since the columns are always inside of rows, we can nest them inside of the .row selector
+
+  1st .col-1-of-2 - how do we define the width of the column? its the entire width of the row minus the gutter divided by 2
+
+  how do we actually do these calculations? in SCSS there is an extremely powerful function which is called CALC - in there you can do math operations and you can actually mix units in there which is a huge advantage (we cant do this in SASS)
+        * but dont forget to use #{$gutter-horizontal} if u use a sass variable in the calc function  - so we have to use a hash + wrap it in the curly braces
+
+  now we wanna be able to see the gutter, and as you can see from the diagram, the horizontal gutter is always the right margin of the col. so if there are 2 , then there is one horizontal gutter which is the right margin of the first col
+  so again we are gonna use the :not pseudo class
+
+  one more thing, since we are using float layout, we need to use float:left, coz we always need to float these columns to the left
+
+  NOTICE
+    * the row has height of 0px - and that is because all of the child elements are floated - SO THE HEIGHT COLLAPSES AND BECOMES ZERO
+        * WE NEED TO USE THE CLEARFIX HACK
+        * WE ARE GONNA USE A SASS MIXIN - A REUSABLE PIECE OF CODE - WE ARE GONNA PUT IT INTO MIXINS
+
+
+    * ALSO WITH ANOTHER ROWS - THE CODE AFTER THE CALC FUNCTION - we cant repeat ourselves, that would be against the DRY dont repeat yourself practice - instead what we wanna do is to take all these columns and apply the styles all at once
+        and for that we are gonna use the ATTRIBUTE SELECTOR
+            [src] for example - we could select all of the elements that have this exact source for example . or we could select by [alt] ie
+            [alt = "logo]
+
+  but what  we wanna do in this case is to select by the class - but why not select using the dot? coz we can select by not just using = equal but also ^= meaning we want the beggining to be ie col- and thats it  - IT WILL SELECT ALL OF THE ELEMENTS IN WHICH THE CLASS ATTRIBUTE STARTS WITH COL-
+
+  WE COULD ALSO USE OTHER SYMBOLS LIKE *= WHICH WOULD MEAN SELECT EVERY CLASS THAT CONTAINS THE COL-
+
+              $= "col-" would select all the elements with class that ends with col-
+
+              ie we could select all links with certain href, or all anchor elements with target blank etc, there are a lot of applications for this
+*/
+
+[class ^= "col-"] {
+  background-color: orangered;
+  float: left;
+  &:not(:last-child) {
+    margin-right: $gutter-horizontal;
+  }
+}
+
+.row {
+  max-width: $grid-width;
+  background-color: #eee;
+  margin: 0 auto;
+
+    &:not(:last-child) {
+    margin-bottom: $gutter-vertical;
+  }
+
+  @include clearfix;
+
+  .col-1-of-2 {
+      width: calc((100% - #{$gutter-horizontal}) / 2);
+  }      
+
+  .col-1-of-3 {
+    width: calc((100% - 2 * #{$gutter-horizontal}) / 3);
+  }
+
+// here we take the 1-of-3 and mulitply x 2 and add a gutter and that should be it
+  .col-2-of-3 {
+    width: calc(2 * ((100% - 2 * #{$gutter-horizontal}) / 3) + #{$gutter-horizontal});
+  }
+
+  .col-1-of-4 {
+    width: calc((100% - 3 * #{$gutter-horizontal}) / 4);
+  }
+
+  .col-2-of-4 {
+    width: calc(2 * ((100% - 3 * #{$gutter-horizontal}) / 4) + #{$gutter-horizontal});
+  }
+
+  // 3x the column + 2x the gutter - you can see it easily in the diagram
+  .col-3-of-4 {
+    width: calc(3 * ((100% - 3 * #{$gutter-horizontal}) / 4) + 2 * #{$gutter-horizontal});
+  }
+}
+
+
+// YOU CAN ALWAYS USE THIS LAYOUT FOR YOUR NEXT PROJECTS, AND ITS WAY BETTER TO HAVE YOUR OWN STUFF WHICH YOU KNOW HOW IT WORKS THAN TO RELY ALWAY ON 3RD PARTY STUFF -  IE IN YOUR NEXT PROJECT IF YOU THINK THE GUTTERS ARE TOO LARGE OR TOO SMALL, AGAIN YOU CAN GO TO VARIABLES AND CHANGE EVERYTHING VERY EASILY

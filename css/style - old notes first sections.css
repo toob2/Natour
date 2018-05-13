@@ -1,0 +1,515 @@
+/*
+COLORS:
+
+Light green: #7ed56f
+Medium green: #55c57a
+Dark green: #28b485
+
+*/
+
+/* reset - coz by default browsers apply some margin and padding to some elements
+
+* box-sizing: border-box means that the box model is changed so that the borders and padding are no longer added to the total width or the total height
+ */
+
+*,
+*::before,
+*::after
+{
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+/* 
+we can also upgrade the * selector by adding all of the ::after and ::before pseudo elements
+
+THATS BECAUSE ONLY THE REAL ELEMENTS WERE SELECTED BY USING THE *{}
+
+and if we had used a width or height measurements on the ::after and  :: before pseudos they wouldnt have behaved the way we would expect them to without this box-sizing: inherit affecting them, look above
+*/
+
+
+/*
+FONT-SIZES - the root font-size is set in the HTML, if we change then our font-sizes to rem, we can easily then adujst them - but why did he change it to 10px from 16 ? to make our lives easier!!! NOW WE KNOW THAT 1 REM = EXACTLY 10PIXELS. AND ITS EASY TO REPLACE ALL THE PIXELS BY REMS COZ ALL WE HAVE TO DO IS DIVIDE THEM BY 10, IF IT WAS 16 IT WUD HAVE BEEN MUCH HARDER (its a pretty common technique to avoid that)
+* so now we start at the top and CHANGE MOST OF OUR MEASUREMENTS TO REM
+
+ideally u wanna do this at the start of the project but it wud be overwhelming in this course to start off doing this
+
+
+* now YOU CAN GO TO THE CONSOLE AND START CHANGING THE GLOBAL FONT-SIZE AND EVERYTHING IS GONNA BE CHANGING NICELY - EVERYTHING IS GONNA BE CHANGING - FONT-SIZES, MARGINS, PADDING - YOU CAN USE MOUSE SCROLL TO SEEE THIS, AND THIS IS VERY COOL WHEN WE START WRITINGG MEDIA QUERIES
+
+
+another thing is that setting the html font-size to 10px is a bad practice, coz it removes the users ability to change the font-size locally in his browser. and that is why we are gonna set the overall font-size to % here, which will translate to a % of the font-size given by the browser
+
+the default is 16px if the user doesnt change anything
+
+so if we put 100% there, that wud mean that the root font-size would be 16px if the user doesnt change anything, and if the user changes the font-size to lets say 18px, then the root font-size will be 18px, if he changes to 20px it will be 20 and so on.
+* this is a very widely used technique!!!!
+(btw rems arent supported bellow ie9)
+*/ 
+html{
+  /*font-size: 10px;*/
+  font-size: 62.5%;  /* we want 10px root font-size*/
+  box-sizing: border-box;
+}
+
+
+/* font properties are gonna get set in the body, why? coz they are usually ineherited so we are gonna use inheritance. the font family in the body element will get inherited by all the child elements, its a better practice than putting it into the above reset*/
+
+
+/*
+ANOTHER THING INHERITANCE - use it whenever you can, we are gonna remove the box-sizing: border-box; from the *{} selector and move it into the body{} and in the *{} we are gonna use the inherit keyword. by default , the box-sizing property is not inherited, but by setting it to inherit in the *{} it will automatically inherit whatever used in the body{}
+it is considered a slightly better practice by the CSS community coz it allows to change style in the plug-ins etcs
+*/
+body {
+  font-family: "lato", sans-serif;
+  font-weight: 400;
+  /*font-size: 16px;*/
+  line-height: 1.7;
+  color: #777;
+  padding: 3rem;
+}
+
+/*
+vh
+what this is saying that at any point the height of the element should be 95% of the viewport height
+
+
+background-position: top ensures whichever position you are at the top of the image stays at the top, experiment with it. if you set it to bottom, then the bottom is gonna stay and the top is gonna get cropped off, use the console to experiment wifit
+if you set it to center, it will prob crop off the top and the bottom 
+*/
+
+/*next step is we wanna have the nice green radiant over the image and to do that we again use the backround image, we simply specify the second background image. and we want the bg image to stay on the top, so we need to specify the gradient first and use the green colors from the top, we can also specify the direction ie to right or 2 directions like to right bottom(it will start at the left top. 
+
+to make the image bellow visible, we need to change the opacity. you can use the slider in the box colors editor to get the opacity of 0.8 on each color. so basically 80% of the color is visible
+
+also to get the nice white border around the website we can add padding 30px to the body
+
+
+next we need to clip off the bottom part of the image, for that we use the modern css property clip-path and we use the polygon function and we need to find a bunch of coordinates which define this polygon
+
+so how do we find them? we need to find the coordinates of the corners we still want to be visible(got a sc in the folder - you start top left corner, top right bottom right and bottom left ) thats  how you specify the polygon. we can use 100% width for simplicity( we can use any units that we want)
+
+
+lets try and make a triangle out of this in the console (easy)
+
+there is a tool you can use for this https://bennettfeely.com/clippy/ with a lot of different shapes, PRETTY COOL!!!
+BTW You can use as many points in the polygon as you like .!!!!
+
+BUT FOR OUR WEBSITE WE ARE GONNA AGAIN SPECIFY THE UNITS OF VIEWPORT HEIGHT
+
+NOW IF WE CHANGE THE VIEWPORT HEIGHT, ITS GONNA BE RESPONSIVE!!!
+
+*/
+.header {
+  height: 95vh;
+  background-image: linear-gradient(
+    to right bottom,
+     rgba(126, 213, 111, 0.5),
+     rgba(85, 197, 122, 0.5),
+     rgba(40, 180, 133, 0.5)) 
+  ,url(../img/hero.jpg);
+  background-size: cover;
+  background-position: top;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 85vh);;
+  position: relative;
+  }
+/*
+a good way to position the logo is the ABSOLUTE
+positioning
+
+the measurements - where do they start from? the 40px?
+that reference is its parent element which has its position se to RELATIVE. THE HEADER IS THE PARENT ELEMENT SO WE NEED TO SET IT TO RELATIVE
+*/
+
+
+/*
+so once again we are using the absolute positioning for the text-box, but the top and left are gonna be have to a bit different now
+!!!!!!
+we can put temporarily bg color to red, and see what happens - its not in the center but in the bottom right corner - but actually the code did what we wanted - because the its clearly 50% from the left - thats where the measure starts. same from the top
+
+so we need to shift it just a little bit to the left and to the top so that the measure actually starts from the middle of the box
+
+so another thing we want is to TRANSLATE THE ENTIRE BOX - AND ITS ACTUALLY PRETTY EASY TO DO. WE JUST NEED TO USE THE TRANSFORM PROPERTY IN CSS - we just need to specify how much we wanna translate on x and y
+AND WHAT WE WANT IS -50% FOR BOTH
+
+THESE 50% ARE NO LONGER IN RELATION TO THE PARENT ELEMENT BUT TO THE ELEMENT ITSELF
+SO IF WE SAY -50% IT WILL BE SHIFTED HALF OF THE WIDTH TO THE LEFT AND SAME FOR THE HEIGHT
+-50% MEANS IT WILL BE SHIFTED 50% OF THE ELEMENTS HEIGHT TO THE TOP
+
+AND BECAUSE WE CLIPPED OF A BIT OF THE BOTTOM IT DOESNT LOOK ITS IN THE MIDDLE EVEN THO IT IS SO WE SHOULD TRANSLATE IT A BIT HIGHER
+OR CHANGE THE TOP % TO 40% INSTEAD OF 50% I THINK YOU I USE BOTH WAYS
+*/
+.header__text-box{
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+
+  .header__logo-box {
+    position: absolute;
+    top: 4rem;
+    left: 4rem;
+  }
+
+/* 
+we only need to specify the height, the width will scale accordingly. we could do it the other way as well, set the width and the height will be figured out by the browser
+*/
+  .header__logo {
+    height: 3.5rem;
+  }
+
+/* fff = RGB reference, a complete presence of all the colors, 100% red, green, blue */
+.heading-primary {
+  color: #fff;
+  text-transform: uppercase;
+  }
+
+/*
+HOW DO WE FORMAT THEM SO THAT THEY ARE UNDER EACH OTHER? THE BEST WAY IS TO DISPLAY THEM BOTH AS BLOCK ELEMENTS. remember that block elements occupy the entire width that they have available and create line breaks before and after them. THE SPAN ELEMENT IS BY DEFAULT AN INLINE ELEMENT
+
+btw by default h1 has higher font weight than 600
+
+than you go and inspect it and indeed its now displayed as a block and it occupies 100% of the width if  you hover over it
+
+and lets HAVE A LOOK WHICH FONT WEIGHTS WE ACTUALLY HAVE AVAILABLE IN THE HEAD FROM THE CDN LINK
+
+
+NEXT WE NEED TO FIND THE WAY SO THAT IT STAYS EXACTLY IN THE CENTER NO MATTER WHAT THE SCREEN SIZES
+
+WE ARE GONNA PUT ALL OF THIS INTO ANOTHER CONTAINER COZ WE ARE GONNA ADD MORE TO THIS CONTAINER LATER (THE BUTTON -WHICH WILL HAVE TO STAY CENTERED AS WELL) - SO WE ARE GONNA CENTER THE ENTIRE BOX. and with css, we should follow the natural order of the html, so we are gonna put the .text-box{}above . AND ONCE AGAIN WE ARE GONNA USE THE ABSOLUTE POSITIONING
+
+*/
+
+.heading-primary--main {
+  display: block;
+  font-size: 6rem;
+  font-weight: 600;
+  letter-spacing: 3.5rem;
+  animation: moveInLeft;
+  animation-duration: 3s;
+  animation-timing-function: ease-out;
+  backface-visibility: hidden;
+
+  /*
+  animation-iteration-count: 3;
+  animation-delay: 1s;*/
+}
+
+.heading-primary--sub {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1.75rem;
+  animation: moveInRight 3s ease-out;
+  margin-bottom: 2rem;
+}
+
+/* 
+NOW WE ARE GONNA DO THE ANIMATIONS THAT START AT THE RELOAD OF THE PAGE
+
+FOR THAT WE ARE GONNA USE THE KEYFRAMES AT RULE
+@keyframes 
+
+AND WE ARE GONNA START WITH THE HEADING PRIMARY-MAIN THATS GONNA MOVE IN FROM THE LEFT
+
+the syntax is @keyframes name of the animation
+
+in there we are gonna specify what we want to happen at each moment of the animation
+we start at 0% which is before the animation starts. we can do any % we want
+- so what do we want it to look like before it starts? first we want it to be invisible and at the end we want it to be back to 1
+
+for browser performance is the best to animate only 2 of the properties at most. one is opacity and the other one is transform the property - browsers are optimized for these two. but with transform we can do a lot, so its all we need
+
+so where do we need it to be before it starts? we want it to be more to the left right? and what about when we are at 100% ? we simply want it to look same as it is now - we use translateX(0); and its gonna look exactly the way it does now
+
+for the animation to work , we need to specify 2  properties in the element we want to animate:
+  animation name
+  animation duration
+
+we can also specify the animation delay and the number of iterations, which is very useful
+
+  animation-timing-function: specifies how fast the parameters that we specified are gonna happen
+    ease-out
+    ease-in - with this one it will start slower and then accelerate
+    (we will look into this later as well)
+
+  we can also use the shorthand property: animation and specify all of the parameters in there instead of writing out all of them one by one
+
+  btw the shake you see after its finished when it moves to the top - nobody really knows why does it happen:D BUT WE HAVE A FIX FOR THIS
+
+  WHAT WE HAVE TO DO IS TO DECLARE THE BACKFACE-VISIBILITY PROPERTY and set it to HIDDEN. IT DETERMINES IF THE BACKPART OF THE ELEMENT WHEN WE TRANSFORM IT IS HIDDEN OR VISIBLE FOR THE USER
+    * so imagine we have an element and we would like to rotate it 180deg, so it would be logical that we would like to see the backpart of the element, but if we use the backface-visibility: hidden, that back part will be hidden, but in this case we can use this fix
+
+    you can add another parameter behind
+    ie 
+    transform: translateX(-20px) rotate(20deg);
+
+    to select the next one use CTRL+D and u can select all of them, delete and TYPE SIMULTANOUSLY IN ALL THE selected places
+
+    OR YOU CAN CLICK ON ONE EXPRESSION HIT CTRL AND KEEP CLICKING AND IT WILL KEEP ADDING MULTIPLE ONES
+
+    also use the minimap!!! ie when you have 500 lines of css!!!
+
+
+    ALSO - WHAT IF YOU DONT WANT THE ANIMATION TO HAPPEN ONLY WHEN YOU LOAD THE PAGE ?
+      IF WHEN YOU HOVER? IE WE WANT THE moveInLeft animation happen to the logo when we hover it
+          logo:hover{}
+*/
+
+@keyframes moveInLeft {
+  0% {
+    opacity: 0;
+    transform: translateX(-10rem) ;
+  }
+
+  80% {
+    transform: translateX(1rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+@keyframes moveInRight {
+  0% {
+    opacity: 0;
+    transform: translateX(10rem);
+  }
+
+  80% {
+    transform: translateX(-1rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translate(0);
+  }
+}
+
+/* 
+NEXT IS THE BUTTON in the header
+* pseudo elements and pseudo classes, why they are important and why use them
+
+since the button is a link we should do it this way:
+.btn:link - and this is a pseudo class
+
+pseudo classes are a special state of a selector
+ie when a user hovers an element or he clicks a checkbox or if we want to select an nth child, etc
+:visited - default link is blue and clicked purple, thats the default styling.
+we dont want this, we want the visited state to look exactly like the :link state, the normal state
+
+
+remember that we are gonna have different colors of the buttons, so thats sth we will have to do in the external class
+
+but as it is an inline element atm, its occupiying space of the second part of the heading, so we have to display it as: inline-block, this way the box model works on an element as if it was just a normal block element. SO WE SHOULD ALWAYS DO IT IF WE WANT SOME PADDINGS, HEIGHT OR WIDTH TO ELEMENTS
+
+ANOTHER THING WE WANT IS THE BTN TO BE IN THE MIDDLE OF THE BOX, HOW TO ACHIEVE IT?
+  use absolute positioning or transform as we did before? that would be an overkill
+  
+BECAUSE ITS AN INLINE-BLOCK ELEMENT, IT IS TREATED AS IF IT WAS A TEXT - so all we have to do is to set the text-align property of the .text-box to center!!!!
+
+and we use some margin bottom at the heading-primary-sub 
+
+
+NEXT WE NEED TO TAKE CARE OF THE :HOVER STATE
+* first we want the element to move up - we use transform as we did before ITS A RLY RLY IMPORTANT PROPERTY!!!
+
+
+NEXT IS THE :ACTIVE STATE = THE STATE WHEN ITS CLICKED!!
+the -1px :visited is in the relation to the initial state of the button the :link state, not to the :hover 
+
+NEXT WE NEED TO ANIMATE IT AND ADD THE SHADOWS
+* add round corners - border-radius: 100px; and by using a very high number its gonna be rounded
+  * 200 or 500 wud still be the same effect
+  
+NOW THE ANIMATION - as you remember there are 2 ways to do this:
+1. use the transition property
+2. use the @keyframes method where you specify each step of the animation
+
+in this case this wont be necessary so we can use just the transition property and specify which properties we want to animate, and if you are not really sure or want to animate them all use 'all', then we specify the time if we want (and we are writing it in the shorthand for same as we did with the @keyframes method
+
+so the transform at the :hover as well :active will be animated in relation to the initial state. and it causes a lot of confusion as to why the transition property has to be in the initial state???
+    * coz thats how it works
+
+NOW WE HAVE TO ADD THE BOX-SHADOW 
+  * and we can specify a bunch of values
+  
+  * first one is the offset in the x direction
+  and since we only want the shadow in the y direction, we put 0 there
+  
+  * 3rd value is the blur that we want to see - we use 20px so we have a rly high blur there  - so it looks like we are further away
+
+  - in the :active we are gonna reduce the blur so its gonna look like we are closer to the page
+
+  * and finally we are gonna put a color - we use rgba coz we want the color of the shadow to be transparent with 20% opacity, in order to make it a very subtle shadow
+
+  * in the active state we are gonna make it closer to the webpage, y 10px and also less blurred, if you arent sure, play around with it - this all comes with practice and with experimenting :) */
+
+
+.btn:link,
+.btn:visited {
+  display: inline-block;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 1.5rem 4rem; 
+  border-radius: 10rem;
+  transition: all .2s ease-out;
+  position: relative;
+  font-size: 1.6rem;
+}
+
+.btn:hover {
+  transform: translateY(-0.3rem);
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.2)
+}
+
+.btn:active {
+  transform: translateY(-0.1rem);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2)
+}
+
+.btn--white {
+  background-color: #fff;
+  color:#777;
+}
+
+/* P2 COMPLEX BUTTON ANIMATED
+  * next we are goint to add the part when it looks like THE button zooms out to the infinity when we hover it and it comes back when we hover out
+  * its not rly necessary but its to show the power of CSS and of pseudo elements
+
+  AND PSEUDO ELEMENTS ALLOW US TO STYLE CERTAIN PARTS OF ELEMENTS AND FOR EXAMPLE THE :AFTER PSEUDO ELEMENT ADDS A VIRTUAL ELEMENT RIGHT AFTER THE ELEMENT THAT WE ARE SELECTING AND WE CAN THEN STYLE THAT ELEMENT. AND THIS CAN BE RLY POWERFUL TO ADD SOME COOL EFFECTS - AND ONCE YOU MASTER IT, UR GONNA WANNA USE IT ALL THE TIME
+
+  so the trick here is to put an element that looks exactly like the button BUT WE PUT IT BEHIND THE BUTTON AND WHEN WE HOVER OUT OF THE BUTTON, THEN THIS PSEUDO ELEMENT GOES BACK BEHIND THE BUTTON
+    * first for the pseudo element to appear in the dom, we need to specify its content property - ITS ALWAYS NECESSARY, it doesnt matter what it is, it can even be empty - otherwise its not gonna work
+    * and the same thing with the display property
+
+    and again we want it to be exactly the same so we add height:100% and the width same
+
+    and this works that the after is basically treated as a child of the button
+      * so if we say we want the height to be 100% that means its 100% height of the button
+
+      and we want it to be white
+      and for that we need to make another ::after pseudo element this time using the .btn-white class
+
+      right now its 2x big as its still a part of our element so what we should do IS WE ARE GONNA PUT IT BEHIND THE ACTUAL BUTTON
+
+      SO HOW TO DO THIS???
+      WE USE ABSOLUTE POSITIONING - and the reference should be the btn:link
+
+      one more thing we have to do is to set the Z-INDEX and put it to -1
+
+      the z-index defines the position of the elements if they are on top of each other
+
+      since it hidden  we cant actually see it on the webpage, SO WHEN DO WE ACTUALLY WANNA SEE IT?
+
+      WE WANNA SEE IT WHEN WE HOVER THE BUTTON
+AND WE ARE GONNA WRITE IT LIKE THIS
+  .btn:hover::after which means when we hover the button, we want some style for the pseudo element
+
+  and what we want to happen? we want the element bigger and want it to fade out
+  this time we are gonna use:
+  tranform: scale(2) - this would double its size
+
+  we can try it out by changing the bg color of the btn-white:after to red, and  its gonna double its size and become all red - and we can be sure that its behind the btn coz we can still see the text, so that means the original button is still on the top of the pseudo element
+  
+  and we also want it animated so where do we put the transition property? and exactly as before we do it on the initial state which is the .btn::after pseudo element
+
+  what also happens is that the element fades out so 
+  
+  */
+
+.btn--white::after{
+  background-color: #fff;
+  color:#777;
+}
+
+.btn::after {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  width: 100%;
+  border-radius: 10rem;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: -1;
+  transition: all .4s ease-out;
+}
+
+/*
+we can only do ie scaleX and its gonna scale just in the x direction
+you can specify different values for both X and Y
+*/
+.btn:hover::after{
+  transform: scaleX(1.5) scaleY(2);
+  opacity: 0;
+}
+
+/*  
+and next is the button animation, and its pretty similar to the H1 animation
+*/
+@keyframes moveInBottom {
+  0% {
+    opacity: 0;
+    transform: translateY(10rem);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* as there are gonna be alot of button on the page and you want this animation to happen only on this button, lets create a new class 
+and we are gonna add a delay 0.75s
+
+and what happened - is that the button was actually visible before the animation
+
+and we can fix this by using another animation property and its called animation fill mode - and what  this does, is that it will automatically apply the styles at 0% before the animation starts
+*/
+
+.btn--animated{
+  animation: moveInBottom 0.5s ease-out .75s;
+  animation-fill-mode: backwards;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

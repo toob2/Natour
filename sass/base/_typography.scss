@@ -1,0 +1,36 @@
+/*
+again you could argue this the heading is a component, its up to you
+*/
+
+.heading-primary {
+  color: $color-white;
+  text-transform: uppercase;
+   
+  &--main {
+    display: block;
+    font-size: 6rem;
+    font-weight: 600;
+    letter-spacing: 3.5rem;
+    animation: moveInLeft;
+    animation-duration: 3s;
+    animation-timing-function: ease-out;
+    backface-visibility: hidden;
+  }
+  
+  &--sub {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 1.75rem;
+    animation: moveInRight 3s ease-out;
+    margin-bottom: 2rem;
+  } 
+}
+
+body {
+  font-family: "lato", sans-serif;
+  font-weight: 400;
+  line-height: 1.7;
+  color: $color-gray-dark;
+  padding: 3rem;
+}
