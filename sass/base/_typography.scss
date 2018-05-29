@@ -31,6 +31,82 @@ body {
   font-family: "lato", sans-serif;
   font-weight: 400;
   line-height: 1.7;
-  color: $color-gray-dark;
+  color: $color-grey-dark;
   padding: 3rem;
+}
+
+
+/*
+first we set the background image to liner-gradient
+now we need to make sure the h2 doesnt occupy the full width of the vp. it does now because its a block element
+
+next step is to make that gradient happen behind the text
+so what we are gonna do is to use the brand new webkit background clip property
+
+so right now we have the bg image only where the text sits, and on top of that we have the text. so we need to make this text transparent so that we can see the bg image
+so we can simply set the color to transparent
+
+also we will need to center it, and again prob the best way is to wrap it in an element and the center it
+
+and we are going to do it using a new concept called UTILITY CLASSES.
+we are gonna create a class u-center-text . we are gonna be able to re-use it. its a simple class that allows us to center text (just one line in there text-align: center
+
+now the text we have in our h2 will become centered and that because its an inline-block element. so if we set the div wrapped around it - its parent to text-center, then the block-inline element inside of it is treated as text
+
+also we need to think that  we need some space under the h2, and as we are gonna be using it across the page like 5x we need to think ahead and not just use the margin property. coz we are gonna need different amounts of margin each time
+
+so what we should do is we should use another utility class
+u-margin-bottom-8
+
+SO THIS WILL ALLOW US TO RE-USE OUR COMPONENTS ACCROSS THE PAGE
+
+ALWAYS THINK LIKE THIS 
+
+*/
+.heading-secondary {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  background-image: linear-gradient(to right,
+  $color-primary-light,
+  $color-primary-dark);
+  display: inline-block;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: .2rem;
+  transition: all 0.5s;
+
+  &:hover{
+    transform: skewY(12deg) skewX(20deg) scale(1.1);
+    text-shadow: .5rem 1rem 2rem rgba($color-black, 0.5);
+  }
+}
+
+.heading-tertiary {
+  font-size: $default-font-size;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/*
+we are setting margin at the bottom of the paragraph but we dont want any margin at the last one, same as what we did in the header
+
+so we are selecting everything, but the last child. and you can inspect this in the console and you can see that the last para has no margin at the bottom
+
+and its better to rename the utility classes from
+u-margin-bottom-8 to u-margin-bottom-big 
+
+coz in case we wanna change it later we just change the rems and we dont have to re-write our markup ...etc
+
+and btw in the console you can see all the computed values from the rems
+
+
+*/
+.paragraph {
+  font-size: $default-font-size;
+
+    &:not(:last-child){
+      margin-bottom: 3rem;
+
+    }
 }

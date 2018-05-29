@@ -82,6 +82,83 @@ body {
   padding: 3rem; }
 
 /*
+first we set the background image to liner-gradient
+now we need to make sure the h2 doesnt occupy the full width of the vp. it does now because its a block element
+
+next step is to make that gradient happen behind the text
+so what we are gonna do is to use the brand new webkit background clip property
+
+so right now we have the bg image only where the text sits, and on top of that we have the text. so we need to make this text transparent so that we can see the bg image
+so we can simply set the color to transparent
+
+also we will need to center it, and again prob the best way is to wrap it in an element and the center it
+
+and we are going to do it using a new concept called UTILITY CLASSES.
+we are gonna create a class u-center-text . we are gonna be able to re-use it. its a simple class that allows us to center text (just one line in there text-align: center
+
+now the text we have in our h2 will become centered and that because its an inline-block element. so if we set the div wrapped around it - its parent to text-center, then the block-inline element inside of it is treated as text
+
+also we need to think that  we need some space under the h2, and as we are gonna be using it across the page like 5x we need to think ahead and not just use the margin property. coz we are gonna need different amounts of margin each time
+
+so what we should do is we should use another utility class
+u-margin-bottom-8
+
+SO THIS WILL ALLOW US TO RE-USE OUR COMPONENTS ACCROSS THE PAGE
+
+ALWAYS THINK LIKE THIS 
+
+*/
+.heading-secondary {
+  font-size: 3.5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  background-image: linear-gradient(to right, #7ed56f, #28b485);
+  display: inline-block;
+  -webkit-background-clip: text;
+  color: transparent;
+  letter-spacing: .2rem;
+  transition: all 0.5s; }
+  .heading-secondary:hover {
+    transform: skewY(12deg) skewX(20deg) scale(1.1);
+    text-shadow: 0.5rem 1rem 2rem rgba(0, 0, 0, 0.5); }
+
+.heading-tertiary {
+  font-size: 1.6rem;
+  font-weight: 700;
+  text-transform: uppercase; }
+
+/*
+we are setting margin at the bottom of the paragraph but we dont want any margin at the last one, same as what we did in the header
+
+so we are selecting everything, but the last child. and you can inspect this in the console and you can see that the last para has no margin at the bottom
+
+and its better to rename the utility classes from
+u-margin-bottom-8 to u-margin-bottom-big 
+
+coz in case we wanna change it later we just change the rems and we dont have to re-write our markup ...etc
+
+and btw in the console you can see all the computed values from the rems
+
+
+*/
+.paragraph {
+  font-size: 1.6rem; }
+  .paragraph:not(:last-child) {
+    margin-bottom: 3rem; }
+
+.u-center-text {
+  text-align: center; }
+
+.u-margin-bottom-big {
+  margin-bottom: 8rem; }
+
+.u-margin-bottom-medium {
+  margin-bottom: 4rem; }
+
+.u-margin-bottom-small {
+  margin-bottom: 1.5rem; }
+
+/*
 we can treat the button as a component, coz its independent and reusable accross the whole page
 */
 /* 
@@ -128,6 +205,78 @@ we can treat the button as a component, coz its independent and reusable accross
   .btn--animated {
     animation: moveInBottom 0.5s ease-out .75s;
     animation-fill-mode: backwards; }
+
+/*
+ again we use inline-block coz we wanna be able to the model properties like padding or margin
+ */
+.button-text:link, .button-text:visited {
+  font-size: 1.6rem;
+  display: inline-block;
+  color: #55c57a;
+  text-decoration: none;
+  border-bottom: 1px solid #55c57a;
+  padding: 3px;
+  transition: all 0.5s; }
+
+.button-text:hover {
+  background-color: #55c57a;
+  color: #fff;
+  box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-0.3rem); }
+
+.button-text:active {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  transform: translateY(-0.1rem); }
+
+/*
+also as we are using the 1.6rem font-size a lot its a great idea to creat another variable $default-font-size. imagine going to the client presenting your work and he wants to increase some of the font sizes. do u prefer to do it 100x manually or just once in the variable???
+*/
+.composition {
+  position: relative; }
+  .composition__photo {
+    width: 55%;
+    box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.4);
+    border-radius: 5px;
+    position: absolute;
+    transition: all 0.5s;
+    z-index: 5;
+    outline-offset: 1rem;
+    /*
+why did we use % for the width and left? because its one of the ingredients of responsive web design - and one of them is flexible images, and we always have to define the width of images in % if possible ( now 55% is the % of the columns width which ofc is dependant on the viewports width, so if you used pixels or rems it wudnt make much sense i guess?
+SO USING % IT WILL NICELY SCALE WITH THE VIEWPORT
+*/
+    /*
+LETS NOW IMPLEMENT THE HOVER EFFECT
+* the box shadow should also change, coz if the image is now bigger and a bit darker, it should give the impression that it is closer to the ground
+
+and how to make the hovered one overlap the others? you can set the z-index on all of the to 10 and on the hovered to any higher number ie 20
+
+next you need to take care of the green border around the hovered images, its not that simple and uses a less known css property
+        * first we set outline on the hovered image - but it would look the same as border
+        * but with the outline we can use sth we can not with the border and that is the outline offset
+
+        * and finally the background images need to decrease in size - you go to composition__photo and select the one that is not hovered
+        *  so basically when we hover the composition then select the composition__photo which is not hovered 
+*/ }
+    .composition__photo--p1 {
+      left: 0;
+      top: -2rem; }
+    .composition__photo--p2 {
+      right: 0rem;
+      top: 2rem; }
+    .composition__photo--p3 {
+      left: 20%;
+      top: 8rem; }
+    .composition__photo:hover {
+      outline: 1rem solid #55c57a;
+      transform: scale(1.1) translateY(-1rem);
+      box-shadow: 0 3rem 8rem rgba(0, 0, 0, 0.5);
+      z-index: 10; }
+  .composition:hover .composition__photo:not(:hover) {
+    transform: scale(0.95); }
+
+i.icon-basic-world {
+  font-size: 5rem; }
 
 /*
 the header we arent gonna treat as a component but as a layout - imagine that on each page as the website grows, the header is gonna be there so its a part of the layout
@@ -212,14 +361,13 @@ but its still not perfect coz what we want is actually the max-width
               ie we could select all links with certain href, or all anchor elements with target blank etc, there are a lot of applications for this
 */
 [class^="col-"] {
-  background-color: orangered;
   float: left; }
   [class^="col-"]:not(:last-child) {
     margin-right: 6rem; }
 
 .row {
   max-width: 114rem;
-  background-color: #eee;
+  /*background-color: #eee;*/
   margin: 0 auto; }
   .row:not(:last-child) {
     margin-bottom: 5rem; }
@@ -240,6 +388,24 @@ but its still not perfect coz what we want is actually the max-width
   .row .col-3-of-4 {
     width: calc(3 * ((100% - 3 * 6rem) / 4) + 2 * 6rem); }
 
+.section-about {
+  background-color: #f7f7f7;
+  padding: 25rem 0;
+  margin-top: -10vh; }
+
+/*
+we have a rectangular section bellow the header in the grey color but there is that white triangle left over wher the bottom of the header was clipped off 
+
+so how do get rid of it?
+there is a way to calculate this
+
+the whole header goes to 95vh
+and the polygons left side to 85vh
+
+so the difference is 10vh
+
+and to move up this whole thing, we can specify the top margin
+*/
 /*
 so what we do now is we sort all of this code bellow into the other files. so the goal is that this main file will have nothing but the import
 

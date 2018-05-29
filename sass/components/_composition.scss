@@ -1,0 +1,71 @@
+.composition {
+  position: relative;
+
+  &__photo {
+    width: 55%;
+    box-shadow: 0 1.5rem 4rem rgba($color-black, .4);
+    border-radius: 5px;
+    position: absolute;
+    transition: all 0.5s;
+    z-index: 5;
+    outline-offset: 1rem;
+
+      &--p1 {
+        left: 0;
+        top: -2rem;
+      }
+
+      &--p2 {
+        right: 0rem;
+        top: 2rem;
+      }
+
+      &--p3 {
+        left: 20%;
+        top: 8rem;
+      }
+    
+/*
+why did we use % for the width and left? because its one of the ingredients of responsive web design - and one of them is flexible images, and we always have to define the width of images in % if possible ( now 55% is the % of the columns width which ofc is dependant on the viewports width, so if you used pixels or rems it wudnt make much sense i guess?
+SO USING % IT WILL NICELY SCALE WITH THE VIEWPORT  
+*/
+
+/*
+LETS NOW IMPLEMENT THE HOVER EFFECT
+* the box shadow should also change, coz if the image is now bigger and a bit darker, it should give the impression that it is closer to the ground
+
+and how to make the hovered one overlap the others? you can set the z-index on all of the to 10 and on the hovered to any higher number ie 20
+
+next you need to take care of the green border around the hovered images, its not that simple and uses a less known css property
+        * first we set outline on the hovered image - but it would look the same as border
+        * but with the outline we can use sth we can not with the border and that is the outline offset
+
+        * and finally the background images need to decrease in size - you go to composition__photo and select the one that is not hovered
+        *  so basically when we hover the composition then select the composition__photo which is not hovered 
+*/
+      &:hover {
+        outline: 1rem solid $color-primary;
+        transform: scale(1.1) translateY(-1rem);
+        box-shadow: 0 3rem 8rem rgba($color-black, .5);
+        z-index: 10;
+      }
+    }
+  
+  &:hover &__photo:not(:hover){
+    transform: scale(0.95);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

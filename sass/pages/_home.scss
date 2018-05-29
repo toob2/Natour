@@ -1,0 +1,41 @@
+.section-about {
+  background-color: $color-grey-light-1;
+  padding: 25rem 0;
+  margin-top: -10vh;
+  margin-bottom: -8vh;
+}
+
+/*
+we have a rectangular section bellow the header in the grey color but there is that white triangle left over wher the bottom of the header was clipped off 
+
+so how do get rid of it?
+there is a way to calculate this
+
+the whole header goes to 95vh
+and the polygons left side to 85vh
+
+so the difference is 10vh
+
+and to move up this whole thing, we can specify the top margin
+*/
+
+
+// its rly modern now to have a lots of white space on your website, hence the padding. we are gonna use the same background image as in the header so we can copy it all in here, no need to do it again, we just change the source image
+.section-features {
+  padding: 20rem 0;
+  background-image: linear-gradient(
+    to right bottom,
+     rgba($color-primary-light, 0.5),
+     rgba($color-primary, 0.5),
+     rgba($color-primary-dark, 0.5)) 
+  ,url(../img/nat-4.jpg);
+  background-size: cover;
+  // we could use again this: clip-path: polygon(0% 0%, 100% 15vh, 100% 100%, 0% 85vh); but there is another way to do this, using transform: skew, but we will need to fix the cards inside of the section. and we can do that by skewing them into the opposite direction innit? but we are gonna do this differently, coz maybe in the future we wanna add a couple of different boxes etc  . so inste ad we are gonna use the new selector called  direct child  '  & > * '. if we would do just & * we would select all the childs, but & > * selects only the direct childs. in this case its just the row, so its gonna take it and apply our rules to it.
+  transform: skewY(-5deg);
+    & > * {
+      transform: skewY(5deg);
+       
+    }
+
+}
+

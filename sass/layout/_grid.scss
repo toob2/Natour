@@ -57,7 +57,6 @@ but its still not perfect coz what we want is actually the max-width
 */
 
 [class ^= "col-"] {
-  background-color: orangered;
   float: left;
   &:not(:last-child) {
     margin-right: $gutter-horizontal;
@@ -66,7 +65,7 @@ but its still not perfect coz what we want is actually the max-width
 
 .row {
   max-width: $grid-width;
-  background-color: #eee;
+  /*background-color: #eee;*/
   margin: 0 auto;
 
     &:not(:last-child) {

@@ -13,7 +13,7 @@ but there is no right and wrong, if you say its a component, maybe ur not wrong
   ,url(../img/hero.jpg);
   background-size: cover;
   background-position: top;
-  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 85vh);;
+  clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 85vh);
   position: relative;
 
  &__logo-box {
